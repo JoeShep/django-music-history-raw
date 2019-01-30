@@ -72,7 +72,13 @@ def songEdit(request, pk):
   if request.method == "GET":
     song = Song.objects.get(pk=pk)
     print("Song to edit", song.title)
-    return render(request, 'history/song_form.html', {"song": song, "route": "history:song_edit"})
+    context = {
+        "song": song,
+        "route": "history:song_edit",
+        "id": song.id,
+        "edit": True
+    }
+    return render(request, 'history/song_form.html', context)
 
   if request.method == "POST":
     song_to_edit = Song.objects.get(pk=pk)

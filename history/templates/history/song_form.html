@@ -4,12 +4,12 @@
   {% include "history/nav_bar.html" with nav_location=location %}
 
 
-  <h3>{% if title_action %} {{title_action}} {% else %} Add a new song to {% endif %} your collection</h3>
+<h3>{% if edit %} Edit '{{song.title}}', from {% else %} Add a new song to {% endif %} your collection</h3>
 
   {% comment %}
-    "route" is variable passed in from either 'add' or 'edit' views
+    "route" and "id" are variable passed in from either 'add' or 'edit' views
   {% endcomment %}
-  <form action="{% url route song.id %}" method='POST'>
+  <form action="{% if edit %} {% url route id %} {% else %} {% url route %} {% endif %}" method='POST'>
     {% csrf_token %}
     <input type="text" name="title" placeholder="title" value="{{song.title}}">
     <input type="text" name="artist_name" placeholder="artist name" value="{{song.artist}}">

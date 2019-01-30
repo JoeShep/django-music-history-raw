@@ -9,8 +9,7 @@ urlpatterns = [
     path('songs/add', views.songNew, name='song_new'),
     path('songs/<int:pk>/', views.songDetail, name='song_detail'),
     path('songs/<int:pk>/edit', views.songEdit, name='song_edit'),
-
-    # path('artists/', views.ArtistListView.as_view(), name='artists'),
+    path('artists/', views.artistList, name='artist_list'),
     # path('artists/add/', views.ArtistFormView.as_view(), name='artist_form'),
     # path('songs/<int:pk>/edit', views.SongEditView.as_view(), name='song_edit'),
     # path('artists/add/', views.ArtistFormView.as_view(), name='artist_form'),

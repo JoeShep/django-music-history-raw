@@ -9,6 +9,7 @@ def index(request):
 
 # Songs
 def songList(request):
+  # Long way, using try/except. See the artist functions for using Django's get_list_or_404 and get_object_or_404
   try:
     # By default, Django figures out a database table name by joining the model’s “app label” – the name you used in manage.py startapp – to the model’s class name, with an underscore between them.
     songs = Song.objects.raw('SELECT * FROM history_song')
@@ -44,12 +45,19 @@ def songDetail(request, pk):
 def songNew(request):
 
   if request.method == "GET":
-    return render(request, 'history/song_form.html', {"route": "history:song_new"})
+    albums = Album.objects.all()
+    artists = Artist.objects.all()
+    context = {
+        "route": "history:song_new",
+        "albums": albums,
+        "artists": artists
+    }
+    return render(request, 'history/song_form.html', context)
 
   if request.method == "POST":
     title = request.POST["title"]
     # assuming artist was submittted from the form as a name. Using an ID is better, when possible, for example if user is selecting from a dropdown list of artists instead of just typing into a text box
-    artist_name = request.POST["artist_name"]
+    artist_name = request.POST["artist"]
     # Go get an instance of the artist so we cn save it as foreign key on song
     ar = Artist.objects.get(name=artist_name)
     # Longhand way of making Song instance and saving to db:
@@ -60,10 +68,11 @@ def songNew(request):
     # Shorthand way makes instance and saves at same time
     # Song.objects.create(title=title, artist=artist)
 
-    # Now, save the album to join table, since song/album is many-to-many
-    album = Album.objects.get(title=request.POST["album_title"])
-    print("album instance?", album)
-    Song_Album.objects.create(song=new_song, album=album)
+    # Now, save the album(s) to join table, since song/album is many-to-many
+    for album in request.POST["albums"]:
+      album = Album.objects.get(title=album)
+      print("album instance?", album)
+      Song_Album.objects.create(song=new_song, album=album)
 
     return HttpResponseRedirect(reverse('history:songs'))
 
@@ -71,9 +80,13 @@ def songEdit(request, pk):
 
   if request.method == "GET":
     song = Song.objects.get(pk=pk)
+    albums = Album.objects.all()
+    artists = Artist.objects.all()
     print("Song to edit", song.title)
     context = {
         "song": song,
+        "albums": albums,
+        "artists": artists,
         "route": "history:song_edit",
         "id": song.id,
         "edit": True
@@ -82,15 +95,29 @@ def songEdit(request, pk):
 
   if request.method == "POST":
     song_to_edit = Song.objects.get(pk=pk)
-    artist = Artist.objects.get(name=request.POST["artist_name"])
+    print("Song has id?", song_to_edit.id)
+    artist = Artist.objects.get(pk=request.POST["artist"])
 
     song_to_edit.title = request.POST["title"]
     song_to_edit.artist = artist
     song_to_edit.save()
 
+    # Now add new instances of song/album if new albums were added in the edit form.
+    # We just loop over all of them and add them, since adding a second time is OK, it will not duplicate the relation
+    for album_id in request.POST["albums"]:
+      album = Album.objects.get(pk=album_id)
+      print("album instance?", album)
+      Song_Album.objects.create(song=song_to_edit, album=album)
+
+
     return HttpResponseRedirect(reverse('history:song_detail', args=(pk,)))
 
 # Artists
+def artistList(request):
+  artists = get_list_or_404(Artist)
+  return render(request, 'history/artist_list.html', {"artist_list": artists})
+
+
 def artistDetail(request, artist_id):
   artist = get_object_or_404(Artist, pk=artist_id)
   context = {"artist": artist}

@@ -127,99 +127,15 @@ def artistDetail(request, artist_id):
 
   return render(request, 'history/artist_detail.html', context)
 
-#Albums
+# Albums
+def albumList(request):
+  albums = get_list_or_404(Album)
+  return render(request, 'history/album_list.html', {"album_list": albums})
 
+def albumDetail(request, pk):
+  album = get_object_or_404(Album, pk=pk)
+  context = {"album": album}
 
-#Genres
+  return render(request, 'history/album_detail.html', context)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Class-based views
-# class ArtistListTemplateView(TemplateView):
-#   template_name = 'history/artists.html'
-
-#   def artist_list(self):  # NOTE that it's the method name that becomes the property on 'view'
-#     artists = Artist.objects.all()
-#     return artists
-# #2)
-# class ArtistListView(ListView):
-#   model = Artist
-#   # Django defaults to referencing the data in the template as 'object_list'. Here is how we can rename it what we want
-#   context_object_name = 'artist_list'
-
-#   def get_context_data(self, **kwargs):
-#     context = super().get_context_data(**kwargs)
-#     context["location"] = "artists"
-#     return context
-
-# class ArtistFormView(FormView):
-#   template_name = 'history/artist_form.html'
-#   form_class = ArtistForm
-#   # NOTE! Be sure to put the slash in front of the url to route properly
-#   success_url = '/history/artists/'
-
-#   def get_context_data(self, **kwargs):
-#     context = super().get_context_data(**kwargs)
-#     context["location"] = "add_artist"
-#     return context
-
-#   def form_valid(self, form):
-#     # This method is called when valid form data has been POSTed.
-#     # It should return an HttpResponse.
-#     form.save()
-#     return super(ArtistFormView, self).form_valid(form)
-
-
-# ===============================
-# Album Views
-# class AlbumListView(ListView):
-#   model = Album
-#   # Django defaults to referencing the data in the template as 'object_list'. Here is how we can rename it what we want
-#   context_object_name = 'album_list'
-
-#   def get_context_data(self, **kwargs):
-#     context = super().get_context_data(**kwargs)
-#     context["location"] = "albums"
-#     return context
-
-# class AlbumFormView(FormView):
-#   template_name = 'history/album_form.html'
-#   form_class = AlbumForm
-#   # NOTE! Be sure to put the slash in front of the url to route properly
-#   success_url = '/history/albums/'
-
-#   def get_context_data(self, **kwargs):
-#     context = super().get_context_data(**kwargs)
-#     context["location"] = "album_form"
-#     return context
-
-#   def form_valid(self, form):
-#     # This method is called when valid form data has been POSTed.
-#     # It should return an HttpResponse.
-#     form.save()
-#     return super(AlbumFormView, self).form_valid(form)
-
-# class AlbumDetailView(DetailView):
-#   model = Album
-
-# class AlbumEditView(UpdateView):
-#   model = Album
-#   form_class = AlbumForm
-#   template_name = 'history/album_form.html'
-
-#   def get_context_data(self, **kwargs):
-#     context = super().get_context_data(**kwargs)
-#     context["location"] = "album_edit"
-#     context["title_action"] = "Edit an album from"
-#     return context
+# TODO Genres

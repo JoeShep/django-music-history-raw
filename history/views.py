@@ -42,8 +42,17 @@ def songDetail(request, pk):
   context = {'song': song}
   return render(request, 'history/song_detail.html', context)
 
-def songNew(request):
+# helper function used by add and edit song functions
+def addSongAlbum(form_albums, song):
+  for album_id in form_albums:
+    album = Album.objects.get(pk=album_id)
+    song_album_pairing = Song_Album.objects.filter(song=song, album=album)
+    if song_album_pairing:
+      pass
+    else:
+      Song_Album.objects.create(song=song, album=album)
 
+def songNew(request):
   if request.method == "GET":
     albums = Album.objects.all()
     artists = Artist.objects.all()
@@ -69,10 +78,7 @@ def songNew(request):
     # Song.objects.create(title=title, artist=artist)
 
     # Now, save the album(s) to join table, since song/album is many-to-many
-    for album in request.POST["albums"]:
-      album = Album.objects.get(title=album)
-      print("album instance?", album)
-      Song_Album.objects.create(song=new_song, album=album)
+    addSongAlbum(request.POST["albums"], new_song)
 
     return HttpResponseRedirect(reverse('history:songs'))
 
@@ -103,11 +109,8 @@ def songEdit(request, pk):
     song_to_edit.save()
 
     # Now add new instances of song/album if new albums were added in the edit form.
-    # We just loop over all of them and add them, since adding a second time is OK, it will not duplicate the relation
-    for album_id in request.POST["albums"]:
-      album = Album.objects.get(pk=album_id)
-      print("album instance?", album)
-      Song_Album.objects.create(song=song_to_edit, album=album)
+    # We just call addSongAlbum again, since ait checks for whether a pairing already exists in the db before adding a new instance
+    addSongAlbum(request.POST["albums"], song_to_edit)
 
 
     return HttpResponseRedirect(reverse('history:song_detail', args=(pk,)))

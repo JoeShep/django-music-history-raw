@@ -31,3 +31,7 @@ class Song(models.Model):
 class Song_Album(models.Model):
   album = models.ForeignKey(Album, on_delete=models.CASCADE, )
   song = models.ForeignKey(Song, on_delete=models.CASCADE, )
+
+  # This enforces no added duplicates of a song/album relationship, but throws an error when a second pairing tries to be added to the db, so in the view we check the db for an existing pairing and just skip the insert to the db if the paring already exists
+  class Meta:
+    unique_together = (('album', 'song'),)

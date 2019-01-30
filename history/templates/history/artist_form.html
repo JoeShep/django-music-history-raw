@@ -5,10 +5,14 @@
   {% include "history/nav_bar.html" with nav_location=location %}
 
   <h3>Add a new artist to your collection</h3>
-
+  {% if error %}
+    <h4 class="error-msg">{{error}}</h4>
+  {% endif %}
   <form method='post'>
     {% csrf_token %}
-    {{ form }}
+    <input type="text" value="{{artist.name}}" name="artist_name" placeholder="artist name">
+    <input type="text" value="{{artist.birth_date}}" name="birth_date" placeholder="birth date: YYYY-MM-DD">
+    <input type="text" value="{{artist.biggest_hit}}" name="biggest_hit" placeholder="biggest hit song">
     <input type="submit" value="Save Artist">
   </form>
 

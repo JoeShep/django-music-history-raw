@@ -112,7 +112,6 @@ def songEdit(request, pk):
     # We just call addSongAlbum again, since ait checks for whether a pairing already exists in the db before adding a new instance
     addSongAlbum(request.POST["albums"], song_to_edit)
 
-
     return HttpResponseRedirect(reverse('history:song_detail', args=(pk,)))
 
 # Artists
@@ -120,12 +119,24 @@ def artistList(request):
   artists = get_list_or_404(Artist)
   return render(request, 'history/artist_list.html', {"artist_list": artists})
 
-
 def artistDetail(request, artist_id):
   artist = get_object_or_404(Artist, pk=artist_id)
   context = {"artist": artist}
 
   return render(request, 'history/artist_detail.html', context)
+
+def artistNew(request):
+  if request.method == "GET":
+    return render(request, 'history/artist_form.html')
+
+  if request.method == "POST":
+    req = request.POST
+    artist_check = Artist.objects.filter(name=req["artist_name"]).exists()
+    if artist_check:
+      return render(request, 'history/artist_form.html', {"error": "An artist with that name already exists"})
+
+    new_artist = Artist.objects.create(name=req["artist_name"], birth_date=req["birth_date"], biggest_hit=req["biggest_hit"])
+    return HttpResponseRedirect(reverse('history:artist_list'))
 
 # Albums
 def albumList(request):

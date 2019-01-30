@@ -21,3 +21,9 @@ li a {
   font-size: 1.5em;
   color: blanchedalmond;
 }
+
+.error-msg {
+  color: red;
+  background: lightpink;
+  padding: 3px 5px;
+}

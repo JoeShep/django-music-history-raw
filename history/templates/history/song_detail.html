@@ -1,0 +1,27 @@
+{% extends "history/index.html" %}
+
+{% block main_stuff %}
+
+{% include "history/nav_bar.html" with nav_location=location %}
+
+<h1>This is a Song<h1>
+
+<h2>{{song.title}}</h2>
+<h3>Performed by
+<a href="{% url 'history:artist_detail' song.artist.id %}"> {{song.artist.name}}</a></h3>
+<h3>From the album{{song.albums.all|pluralize}}</h3>
+
+<ul>
+  {% comment %} Don't use 'album_set' here; use 'albums', since 'albums' is a prop of a Song {% endcomment %}
+  {% for album in song.albums.all %}
+  <li>
+    {{album.title}}, released in {{album.year_released}}
+  </li>
+  {% endfor %}
+</ul>
+
+<form action="/history/songs/{{song.id}}/edit" method="GET">
+  <input type="submit" class="btn" value="Edit Song">
+</form>
+
+{% endblock %}

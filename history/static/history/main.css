@@ -1,0 +1,23 @@
+body {
+  background: dodgerblue;
+}
+
+nav {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+}
+
+nav form:not(:last-child) {
+  margin-right: 8px
+}
+
+h1 {
+  color: lightsalmon;
+  text-shadow: 1.5px 1px 2px darkslateblue;
+}
+
+li a {
+  font-size: 1.5em;
+  color: blanchedalmond;
+}

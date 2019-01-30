@@ -1,0 +1,15 @@
+{% extends "history/index.html" %}
+
+{% block main_stuff %}
+  {% include "history/nav_bar.html" with nav_location=location %}
+
+  <h1>Here's a List of Made Up Songs by The Made Up Artists</h1>
+
+  <ul>
+    {% for song in song_list %}
+    <li>
+      <a href="{% url 'history:song_detail' song.id %}">{{song.title}} by {{song.artist}}</a>
+    </li>
+    {% endfor %}
+  </ul>
+{% endblock main_stuff %}

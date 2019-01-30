@@ -1,0 +1,15 @@
+{% extends "history/index.html" %}
+
+{% block main_stuff %}
+
+  {% include "history/nav_bar.html" with nav_location=location %}
+
+  <h3>Add a new artist to your collection</h3>
+
+  <form method='post'>
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Save Artist">
+  </form>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "history/index.html" %}
+
+{% block main_stuff %}
+
+{% include "history/nav_bar.html" with nav_location=location %}
+
+<h1>These Are Made Up Albums</h1>
+
+<ul>
+  {% for album in album_list %}
+  <li>
+    <a href="{% url 'history:album_detail' album.id %}">{{album.title}}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock main_stuff %}

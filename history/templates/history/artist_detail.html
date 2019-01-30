@@ -1,0 +1,30 @@
+<h1>This is an Artist and some Songs They Recorded</h1>
+
+<h2>{{artist.name}}</h2>
+<h3>Born on {{artist.birth_date}}</h3>
+<h3>Most Famous Song: {{artist.biggest_hit}}</h3>
+
+<h2>Some other songs {{artist.name}} is known for</h2>
+<ul>
+  {% comment %} loop over the artist's associated songs. So cool! {% endcomment %}
+  {% for song in artist.song_set.all %}
+    <li>
+      {{song.title}},
+
+      {% comment %} Don't use 'album_set' here; use 'albums', since 'albums' is a prop of a Song {% endcomment %}
+
+      {% if song.albums.all %}
+        from the album{{song.albums.all|pluralize}}
+        <ul>
+          {% for album in song.albums.all %}
+            <li>
+              {{album.title}}, released in {{album.year_released}}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        unreleased
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

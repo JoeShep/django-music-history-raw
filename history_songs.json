@@ -1,0 +1,97 @@
+[
+    {
+        "album": "Creepy Stuff",
+        "artist_id": 3,
+        "title": "Wee Beasties"
+    },
+    {
+        "album": "Mental Dross",
+        "artist_id": 2,
+        "title": "Love Your Purse. Where'd Ya Get It?"
+    },
+    {
+        "album": "Dog and Cats",
+        "artist_id": 2,
+        "title": "Let's Run For The Hell of It"
+    },
+    {
+        "album": "Can't Stop",
+        "artist_id": "1",
+        "title": "Can't Stop Sweatin'"
+    },
+    {
+        "album": "Boo-Boo's and Stuff",
+        "artist_id": "4",
+        "title": "Be My Little Boo"
+    },
+    {
+        "album": "Angry Yelling",
+        "artist_id": "5",
+        "title": "Shut Your Pie Hole"
+    },
+    {
+        "album": "Love Songs Suck",
+        "artist_id": "5",
+        "title": "Dreamy Lovey Dovey Shit"
+    },
+    {
+        "album": "Ow, My Head",
+        "artist_id": "6",
+        "title": "Never Jump Too High"
+    },
+    {
+        "album": "Nothing to See Here",
+        "artist_id": "6",
+        "title": "Please Back Away Slowly"
+    },
+    {
+        "album": "Creepy Stuff",
+        "artist_id": "3",
+        "title": "Big Bump In the Dark"
+    },
+    {
+        "album": "Mental Dross",
+        "artist_id": "2",
+        "title": "Can We Agree I'm Right?"
+    },
+    {
+        "album": "Angry Yelling",
+        "artist_id": "5",
+        "title": "You Scratched My Record, Idiot"
+    },
+    {
+        "album": "Out All Night",
+        "artist_id": "4",
+        "title": "Ain't You Cute?"
+    },
+    {
+        "album": "Redneck Rumble",
+        "artist_id": "6",
+        "title": "Where's The Party, Y'all?"
+    },
+    {
+        "album": "Worstest Hits",
+        "artist_id": "7",
+        "title": "Watching Paint Dry With Daddy"
+    },
+    {
+        "album": "Worstest Hits",
+        "artist_id": "7",
+        "title": "Shaking Hands With Abraham Lincoln"
+    },
+    {
+        "album": "School is for Looserz",
+        "artist_id": "8",
+        "title": "Skibblety Skoo"
+    },
+    {
+        "album": "Is this Sheet Taken?",
+        "artist_id": "8",
+        "title": "Double Negative"
+    },
+    {
+        "album": "Creepy Stuff",
+        "artist_id": "3",
+        "title": "Insert Big Hit Here"
+    }
+]

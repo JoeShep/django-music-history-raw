@@ -83,7 +83,6 @@ def songNew(request):
     return HttpResponseRedirect(reverse('history:songs'))
 
 def songEdit(request, pk):
-
   if request.method == "GET":
     song = Song.objects.get(pk=pk)
     albums = Album.objects.all()
@@ -101,7 +100,6 @@ def songEdit(request, pk):
 
   if request.method == "POST":
     song_to_edit = Song.objects.get(pk=pk)
-    print("Song has id?", song_to_edit.id)
     artist = Artist.objects.get(pk=request.POST["artist"])
 
     song_to_edit.title = request.POST["title"]
@@ -109,7 +107,7 @@ def songEdit(request, pk):
     song_to_edit.save()
 
     # Now add new instances of song/album if new albums were added in the edit form.
-    # We just call addSongAlbum again, since ait checks for whether a pairing already exists in the db before adding a new instance
+    # We just call addSongAlbum again, since it checks for whether a pairing already exists in the db before adding a new instance
     addSongAlbum(request.POST["albums"], song_to_edit)
 
     return HttpResponseRedirect(reverse('history:song_detail', args=(pk,)))
@@ -117,7 +115,7 @@ def songEdit(request, pk):
 # Artists
 def artistList(request):
   artists = get_list_or_404(Artist)
-  return render(request, 'history/artist_list.html', {"artist_list": artists})
+  return render(request, 'history/artist_list.html', {"artist_list": artists, "location": "artists"})
 
 def artistDetail(request, artist_id):
   artist = get_object_or_404(Artist, pk=artist_id)
@@ -148,5 +146,30 @@ def albumDetail(request, pk):
   context = {"album": album}
 
   return render(request, 'history/album_detail.html', context)
+
+def albumNew(request):
+
+  if request.method == "GET":
+    print("Howdy")
+    artists = Artist.objects.all()
+    context = {
+      "location": "add_album",
+      "artists": artists,
+      "route": "history:album_new"
+    }
+    return render(request, 'history/album_form.html', context)
+
+  if request.method == "POST":
+    req = request.POST
+    album_check = Album.objects.filter(title=req["title"]).exists()
+    if album_check:
+      return render(request, 'history/album_form.html', {"error": "An album with that name already exists", "location": "add_album"})
+
+    artist = Artist.objects.get(pk=req["artist"])
+    new_album = Album.objects.create(
+        title=req["title"], year_released=req["year_released"], artist=artist)
+
+    return HttpResponseRedirect(reverse('history:album_list'))
+
 
 # TODO Genres

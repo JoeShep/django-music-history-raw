@@ -1,3 +1,4 @@
+# These are not used in this version. For NSSers, ModelForms are cool, but not something necessary to master
 from django import forms
 from .models import Artist, Song, Album
 

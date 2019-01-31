@@ -13,8 +13,8 @@ urlpatterns = [
     # albums
     path('albums/', views.albumList, name='album_list'),
     path('albums/<int:pk>/', views.albumDetail, name='album_detail'),
-    # path('albums/add/', views.AlbumFormView.as_view(), name='album_form'),
-    # path('albums/<int:pk>/edit', views.AlbumEditView.as_view(), name='album_edit'),
+    path('albums/add/', views.albumNew, name='album_new'),
+    # path('albums/<int:pk>/edit', views.albumEdit, name='album_edit'),
     # songs
     path('songs/', views.songList, name='songs'),
     path('songs/add', views.songNew, name='song_new'),

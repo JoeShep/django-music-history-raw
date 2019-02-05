@@ -10,7 +10,7 @@
     <h2>{{album.title}}: {{album.year_released}}</h2>
 
     <ul>
-      {% comment %} Loop over the artist's associated songs. So cool! Note we use 'song_set', since 'Song' is a related model and 'song' is not a property of Album directly
+      {% comment %} Loop over the album's associated songs. So cool! Note we use 'song_set', since 'Song' is a related model and 'song' is not a property of Album directly
       {% endcomment %}
       {% for song in album.song_set.all %}
       <li>

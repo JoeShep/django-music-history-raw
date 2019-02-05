@@ -12,7 +12,7 @@ class Artist(models.Model):
 class Album(models.Model):
   title = models.CharField(max_length=100)
   year_released = models.CharField(max_length=4)
-  artist = models.ForeignKey(Artist, on_delete=models.CASCADE, null=True)
+  artist = models.ManyToManyField(Artist, blank=True, through='Album_Artist')
 
   def __str__(self):
     return self.title
@@ -20,7 +20,7 @@ class Album(models.Model):
 class Song(models.Model):
   title = models.CharField(default="", max_length=100)
   albums = models.ManyToManyField(Album, blank=True, through='Song_Album')
-  artist = models.ForeignKey(Artist, on_delete=models.CASCADE, )
+  artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
 
   def __str__(self):
     return self.title
@@ -33,3 +33,7 @@ class Song_Album(models.Model):
   # This enforces no added duplicates of a song/album relationship, but throws an error when a second pairing tries to be added to the db, so in the view we check the db for an existing pairing and just skip the insert to the db if the paring already exists
   class Meta:
     unique_together = (('album', 'song'),)
+
+class Album_Artist(models.Model):
+  album = models.ForeignKey(Album, on_delete=models.CASCADE, )
+  Artist = models.ForeignKey(Artist, on_delete=models.CASCADE, )

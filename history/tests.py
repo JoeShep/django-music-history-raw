@@ -31,7 +31,7 @@ class ArtistTest(TestCase):
 
         # Issue a GET request. "client" is a dummy web browser
         # 'reverse' is used to generate a URL for a given view. The main advantage is that you do not hard code routes in your code.
-        response = self.client.get(reverse('history:artists'))
+        response = self.client.get(reverse('history:artist_list'))
 
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)

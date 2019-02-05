@@ -5,12 +5,14 @@
 {% include "history/nav_bar.html" with nav_location=location %}
 
 <h3>{% if edit %} Edit '{{album.title}}', from {% else %} Add a new album to {% endif %} your collection</h3>
-
+{% if error %}
+  <h4 class="error-msg">{{error}}</h4>
+{% endif %}
 <form action="{% if edit %} {% url route id %} {% else %} {% url route %} {% endif %}" method='POST'>
   {% csrf_token %}
   <input type="text" name="title" placeholder="title" value="{{album.title}}">
   <input type="text" name="year_released" placeholder="year released" value="{{album.year_released}}">
-  <select name=artist>
+  <select name=artist multiple>
     <option disabled selected>select an artist</option>
     {% for artist in artists %}
     <option value="{{artist.id}}">{{artist}}</option>

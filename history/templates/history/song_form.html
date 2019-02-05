@@ -15,7 +15,7 @@
     <select name=artist>
       <option disabled selected>select an artist</option>
       {% for artist in artists %}
-        <option value="{{artist.id}}">{{artist}}</option>
+        <option {% if song.artist.id == artist.id %} selected {% endif %} value="{{artist.id}}">{{artist}}</option>
       {% endfor %}
     </select>
     {% if albums %}

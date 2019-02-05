@@ -23,7 +23,7 @@ class Song(models.Model):
   artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
 
   def __str__(self):
-    return self.title
+    return str(self.__dict__)
 
 # Note that wrapping the model reference to this class (Album_Songs) in strings makes them evaluate lazily (after the models have been defined), to avoid 'not defined' errors
 class Song_Album(models.Model):

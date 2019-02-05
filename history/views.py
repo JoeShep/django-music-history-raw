@@ -34,14 +34,11 @@ def songDetail(request, pk):
     # The raw SQL way, for Bangazon sprint #2!:
     # By default, Django figures out a database table name by joining the model’s “app label” – the name you used in manage.py startapp – to the model’s class name, with an underscore between them.
     sql = '''
-          SELECT * FROM history_song
-          JOIN history_artist ON history_song.artist_id = history_artist.id
-          LEFT JOIN history_song_album ON history_song.id = history_song_album.song_id
-          WHERE history_song.id = %s
+          SELECT * FROM history_song WHERE id=%s
          '''
     # NOTE: To avoid SQL injection attacks, you must use the "params" formatting. The params argument is a list or dictionary of parameters. We use %s placeholders in the query string above for a list of variables ( here we just have a single one: [pk]). We would use %(key)s placeholders for a dictionary (where key is replaced by a dictionary key, of course). Such placeholders will be replaced with parameters from the params argument.
     song = Song.objects.raw(sql, [pk])[0]  # The [0] is very important!!
-    print("raw song", song.artist)
+    print("raw song", song)
   except Song.DoesNotExist:
     raise Http404("Song does not exist")
 
@@ -70,8 +67,8 @@ def addSongAlbum(form_albums, song_id):
 
 def songNew(request):
   if request.method == "GET":
-    albums = Album.objects.all()
-    artists = Artist.objects.all()
+    albums = Album.objects.raw("SELECT * FROM history_album")
+    artists = Artist.objects.raw("SELECT * FROM history_artist")
     context = {
         "route": "history:song_new",
         "albums": albums,
@@ -102,9 +99,9 @@ def songNew(request):
 
 def songEdit(request, pk):
   if request.method == "GET":
-    song = Song.objects.get(pk=pk)
-    albums = Album.objects.all()
-    artists = Artist.objects.all()
+    song = Song.objects.raw("SELECT * FROM history_song WHERE id=%s", [pk])[0]
+    albums = Album.objects.raw('SELECT * FROM history_album')
+    artists = Artist.objects.raw('SELECT * FROM history_artist')
     print("Song to edit", song.title)
     context = {
         "song": song,
@@ -167,7 +164,7 @@ def albumDetail(request, pk):
   return render(request, 'history/album_detail.html', context)
 
 def albumNew(request):
-  artists = Artist.objects.all()
+  artists = Artist.objects.raw('SELECT * FROM history_artist')
   context = {
       "location": "add_album",
       "artists": artists,
